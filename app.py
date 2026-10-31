@@ -11,8 +11,7 @@ st.set_page_config(
     layout="wide",
 )
 
-#DOSSIER_CARTES = Path(__file__).resolve().parent / "cartes_png"
-DOSSIER_CARTES = "cartes_png"
+DOSSIER_CARTES = Path(__file__).resolve().parent / "cartes_png"
 
 VALEURS = {
     "A": 1, "2": 2, "3": 3, "4": 4, "5": 5,
