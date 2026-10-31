@@ -284,80 +284,136 @@ if st.session_state.quatre_cartes is None:
 # Présentation progressive
 # --------------------------------------------------
 
+# else:
+#     st.subheader("2. Présentez les quatre cartes")
+
+#     quatre = st.session_state.quatre_cartes
+#     etape = st.session_state.etape
+
+#     st.progress(etape / 4, text=f"{etape} carte(s) révélée(s) sur 4")
+
+#     colonnes = st.columns(4)
+
+#     for i, (colonne, c) in enumerate(zip(colonnes, quatre)):
+#         with colonne:
+#             if i < etape:
+#                 chemin = DOSSIER_CARTES / f"{c['code']}.PNG"
+#                 st.image(str(chemin), use_container_width=True)
+#                 if not mode_presentation:
+#                     st.caption(nom_carte(c))
+#             else:
+#                 st.markdown(
+#                     """
+#                     <div style="
+#                         height: 190px;
+#                         border: 2px dashed #999;
+#                         border-radius: 12px;
+#                         display: flex;
+#                         align-items: center;
+#                         justify-content: center;
+#                         color: #888;
+#                         font-size: 2rem;
+#                     ">?</div>
+#                     """,
+#                     unsafe_allow_html=True,
+#                 )
+
+#     st.write("")
+
+#     if etape < 4:
+#         if st.button(
+#             "Révéler la prochaine carte",
+#             type="primary",
+#             use_container_width=True,
+#         ):
+#             st.session_state.etape += 1
+#             st.rerun()
+
+#     else:
+#         st.success("Les quatre cartes ont été révélées.")
+
+#         if not st.session_state.get("revelee", False):
+#             if st.button(
+#                 "🔮 Révéler la carte devinée",
+#                 type="primary",
+#                 use_container_width=True,
+#             ):
+#                 st.session_state.revelee = True
+#                 st.rerun()
+
+#         if st.session_state.get("revelee", False):
+#             cachee = st.session_state.carte_cachee
+#             chemin = DOSSIER_CARTES / f"{cachee['code']}.PNG"
+
+#             st.balloons()
+#             st.markdown(
+#                 f"<h2 style='text-align:center'>La carte était : {nom_carte(cachee)} !</h2>",
+#                 unsafe_allow_html=True,
+#             )
+#             col_gauche, col_centre, col_droite = st.columns([1, 2, 1])
+#             with col_centre:
+#                 st.image(str(chemin), use_container_width=True)
+
+#     st.divider()
+
+#     if st.button("↻ Recommencer un nouveau tour", use_container_width=True):
+#         recommencer()
+#         if "revelee" in st.session_state:
+#             del st.session_state["revelee"]
+#         st.rerun()
+
+# --------------------------------------------------
+# Présentation des quatre cartes simultanément
+# --------------------------------------------------
+
 else:
     st.subheader("2. Présentez les quatre cartes")
 
     quatre = st.session_state.quatre_cartes
-    etape = st.session_state.etape
-
-    st.progress(etape / 4, text=f"{etape} carte(s) révélée(s) sur 4")
 
     colonnes = st.columns(4)
 
-    for i, (colonne, c) in enumerate(zip(colonnes, quatre)):
+    for colonne, c in zip(colonnes, quatre):
         with colonne:
-            if i < etape:
-                chemin = DOSSIER_CARTES / f"{c['code']}.PNG"
-                st.image(str(chemin), use_container_width=True)
-                if not mode_presentation:
-                    st.caption(nom_carte(c))
-            else:
-                st.markdown(
-                    """
-                    <div style="
-                        height: 190px;
-                        border: 2px dashed #999;
-                        border-radius: 12px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        color: #888;
-                        font-size: 2rem;
-                    ">?</div>
-                    """,
-                    unsafe_allow_html=True,
-                )
+            chemin = DOSSIER_CARTES / f"{c['code']}.PNG"
+            st.image(str(chemin), use_container_width=True)
+
+            if not mode_presentation:
+                st.caption(nom_carte(c))
 
     st.write("")
 
-    if etape < 4:
+    if not st.session_state.get("revelee", False):
         if st.button(
-            "Révéler la prochaine carte",
+            "🔮 Révéler la carte devinée",
             type="primary",
             use_container_width=True,
         ):
-            st.session_state.etape += 1
+            st.session_state.revelee = True
             st.rerun()
 
-    else:
-        st.success("Les quatre cartes ont été révélées.")
+    if st.session_state.get("revelee", False):
+        cachee = st.session_state.carte_cachee
+        chemin = DOSSIER_CARTES / f"{cachee['code']}.PNG"
 
-        if not st.session_state.get("revelee", False):
-            if st.button(
-                "🔮 Révéler la carte devinée",
-                type="primary",
-                use_container_width=True,
-            ):
-                st.session_state.revelee = True
-                st.rerun()
+        st.balloons()
 
-        if st.session_state.get("revelee", False):
-            cachee = st.session_state.carte_cachee
-            chemin = DOSSIER_CARTES / f"{cachee['code']}.PNG"
+        st.markdown(
+            f"<h2 style='text-align:center'>La carte était : {nom_carte(cachee)} !</h2>",
+            unsafe_allow_html=True,
+        )
 
-            st.balloons()
-            st.markdown(
-                f"<h2 style='text-align:center'>La carte était : {nom_carte(cachee)} !</h2>",
-                unsafe_allow_html=True,
-            )
-            col_gauche, col_centre, col_droite = st.columns([1, 2, 1])
-            with col_centre:
-                st.image(str(chemin), use_container_width=True)
+        col_gauche, col_centre, col_droite = st.columns([1, 2, 1])
+
+        with col_centre:
+            st.image(str(chemin), use_container_width=True)
 
     st.divider()
 
     if st.button("↻ Recommencer un nouveau tour", use_container_width=True):
         recommencer()
+
         if "revelee" in st.session_state:
             del st.session_state["revelee"]
+
         st.rerun()
