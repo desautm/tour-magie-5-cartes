@@ -11,7 +11,7 @@ st.set_page_config(
     layout="wide",
 )
 
-# DOSSIER_CARTES = Path(__file__).resolve().parent / "cartes_png"
+DOSSIER_CARTES = Path(__file__).resolve().parent / "cartes_png"
 # st.write("Dossier des cartes :", DOSSIER_CARTES)
 # st.write("Le dossier existe :", DOSSIER_CARTES.exists())
 
