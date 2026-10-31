@@ -12,6 +12,12 @@ st.set_page_config(
 )
 
 DOSSIER_CARTES = Path(__file__).resolve().parent / "cartes_png"
+st.write("Dossier des cartes :", DOSSIER_CARTES)
+st.write("Le dossier existe :", DOSSIER_CARTES.exists())
+
+if DOSSIER_CARTES.exists():
+    st.write("Fichiers trouvés :", len(list(DOSSIER_CARTES.glob("*.png"))))
+    st.write("Quelques fichiers :", [f.name for f in DOSSIER_CARTES.glob("*.png")][:10])
 
 VALEURS = {
     "A": 1, "2": 2, "3": 3, "4": 4, "5": 5,
