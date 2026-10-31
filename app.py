@@ -11,13 +11,13 @@ st.set_page_config(
     layout="wide",
 )
 
-DOSSIER_CARTES = Path(__file__).resolve().parent / "cartes_png"
-st.write("Dossier des cartes :", DOSSIER_CARTES)
-st.write("Le dossier existe :", DOSSIER_CARTES.exists())
+# DOSSIER_CARTES = Path(__file__).resolve().parent / "cartes_png"
+# st.write("Dossier des cartes :", DOSSIER_CARTES)
+# st.write("Le dossier existe :", DOSSIER_CARTES.exists())
 
-if DOSSIER_CARTES.exists():
-    st.write("Fichiers trouvés :", len(list(DOSSIER_CARTES.glob("*.png"))))
-    st.write("Quelques fichiers :", [f.name for f in DOSSIER_CARTES.glob("*.png")][:10])
+# if DOSSIER_CARTES.exists():
+#     st.write("Fichiers trouvés :", len(list(DOSSIER_CARTES.glob("*.PNG"))))
+#     st.write("Quelques fichiers :", [f.name for f in DOSSIER_CARTES.glob("*.PNG")][:10])
 
 VALEURS = {
     "A": 1, "2": 2, "3": 3, "4": 4, "5": 5,
@@ -197,7 +197,7 @@ if st.session_state.quatre_cartes is None:
 
         for i, valeur in enumerate(VALEURS_CODES):
             code = valeur + couleur
-            chemin = DOSSIER_CARTES / f"{code}.png"
+            chemin = DOSSIER_CARTES / f"{code}.PNG"
 
             with colonnes[i]:
                 if chemin.exists():
@@ -230,7 +230,7 @@ if st.session_state.quatre_cartes is None:
         st.markdown("**Votre sélection**")
         colonnes = st.columns(5)
         for i, code in enumerate(st.session_state.selection):
-            chemin = DOSSIER_CARTES / f"{code}.png"
+            chemin = DOSSIER_CARTES / f"{code}.PNG"
             with colonnes[i]:
                 if chemin.exists():
                     st.image(str(chemin), use_container_width=True)
@@ -261,8 +261,8 @@ if st.session_state.quatre_cartes is None:
             cachee, quatre = quatre_cartes(cartes)
 
             # Vérifier que les images nécessaires sont disponibles.
-            fichiers = [DOSSIER_CARTES / f"{c['code']}.png" for c in quatre]
-            fichiers.append(DOSSIER_CARTES / f"{cachee['code']}.png")
+            fichiers = [DOSSIER_CARTES / f"{c['code']}.PNG" for c in quatre]
+            fichiers.append(DOSSIER_CARTES / f"{cachee['code']}.PNG")
             manquants = [f.name for f in fichiers if not f.exists()]
 
             if manquants:
@@ -297,7 +297,7 @@ else:
     for i, (colonne, c) in enumerate(zip(colonnes, quatre)):
         with colonne:
             if i < etape:
-                chemin = DOSSIER_CARTES / f"{c['code']}.png"
+                chemin = DOSSIER_CARTES / f"{c['code']}.PNG"
                 st.image(str(chemin), use_container_width=True)
                 if not mode_presentation:
                     st.caption(nom_carte(c))
@@ -343,7 +343,7 @@ else:
 
         if st.session_state.get("revelee", False):
             cachee = st.session_state.carte_cachee
-            chemin = DOSSIER_CARTES / f"{cachee['code']}.png"
+            chemin = DOSSIER_CARTES / f"{cachee['code']}.PNG"
 
             st.balloons()
             st.markdown(
